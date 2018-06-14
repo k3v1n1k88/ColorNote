@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:layout_margin="10dp"
+        android:drawableLeft="@drawable/ic_need_icon"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="   Choosen your type"
+        android:textSize="25sp"
+        android:textColor="@color/colorBlack"/>
+    <View
+        android:layout_marginTop="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:id="@+id/dialog_sort_by_name"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="20sp"
+        android:text="   Sort by name"
+        android:textColor="@color/colorBlack"
+        android:drawableLeft="@drawable/ic_sort_by_name"
+        android:layout_margin="10dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+    <TextView
+        android:id="@+id/dialog_sort_by_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="   Sort by color"
+        android:textColor="@color/colorRed"
+        android:textSize="20sp"
+        android:drawableLeft="@drawable/ic_sort_by_color"
+        android:layout_margin="10dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+    <TextView
+        android:id="@+id/dialog_sort_by_date_create"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_sort_by_date"
+        android:text="   Sort by date create"
+        android:textColor="@color/colorYellow"
+        android:layout_margin="10dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+    <TextView
+        android:id="@+id/dialog_sort_by_reminder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/colorBlue"
+        android:drawableLeft="@drawable/ic_sort_by_alarm"
+        android:text="   Sort by reminder Day"
+        android:layout_margin="10dp"
+        />
+</LinearLayout>

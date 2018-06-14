@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    tools:context="com.example.lap10581_local.colornotes.MainActivity">
+
+    <EditText
+        android:id="@+id/note_edt_title"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:inputType="textPersonName"
+        android:singleLine="true"
+        android:hint="Your title here"
+        android:textSize="22sp"
+        android:paddingLeft="10dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/edt_oval"/>
+
+    <com.example.lap10581_local.colornotes.LinedEditText
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/note"
+        android:background="@drawable/edt_oval"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="5dp"
+        android:gravity="top"
+        android:padding="10dp"
+        android:textSize="22sp"
+        android:textColor="#000000"
+        android:inputType="textMultiLine"
+        android:hint="Your content here"
+        />
+</LinearLayout>

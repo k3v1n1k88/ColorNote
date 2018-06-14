@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="Finish"
+        android:icon="@drawable/ic_check"
+        app:showAsAction="always"/>
+    <item
+        android:title="Choose color"
+        android:icon="@drawable/ic_choose_color"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:title="Blue"
+                android:icon="@drawable/ic_choose_color_blue"/>
+            <item
+                android:title="Green"
+                android:icon="@drawable/ic_choose_color_green"/>
+            <item
+                android:title="Red"
+                android:icon="@drawable/ic_choose_color_red"/>
+            <item
+                android:title="White"
+                android:icon="@drawable/ic_choose_color_white"/>
+            <item
+                android:title="Yellow"
+                android:icon="@drawable/ic_choose_color_yellow"/>
+        </menu>
+    </item>
+    <item android:title="Option" />
+</menu>
