@@ -10,6 +10,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import com.example.lap10581_local.colornotes.Objects.ListNote;
+import com.example.lap10581_local.colornotes.Objects.ListNoteInTrash;
 import com.example.lap10581_local.colornotes.Objects.Note;
 
 
@@ -20,11 +21,14 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DatabaseHandler extends SQLiteOpenHelper{
+    private static Logger LOGGER = Logger.getLogger(DatabaseHandler.class.toString());
+
     private static final String DATABASE_NAME = "ColorNote";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String TABLE_NAME = "Note";
 
     private static final String KEY_ID = "id";
@@ -32,14 +36,16 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     private static final String KEY_COLOR = "color";
     private static final String KEY_CONTENT = "content";
     private static final String KEY_DAY_REMINDER = "date_reminder";
+    private static final String KEY_IS_TRASH = "is_trash"; /*Note: is_trash have value 0 when note is in trash and othewise */
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String create_students_table = String.format("CREATE TABLE %s(%s INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, %s TEXT NOT NULL, %s INTEGER NOT NULL, %s TEXT, %s TEXT)", TABLE_NAME, KEY_ID, KEY_DAY_CREATE, KEY_COLOR, KEY_CONTENT,KEY_DAY_REMINDER);
+        String create_students_table = String.format("CREATE TABLE %s(%s INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, %s TEXT NOT NULL, %s INTEGER NOT NULL, %s TEXT, %s TEXT, %s INTEGER NOT NULL)", TABLE_NAME, KEY_ID, KEY_DAY_CREATE, KEY_COLOR, KEY_CONTENT,KEY_DAY_REMINDER,KEY_IS_TRASH);
         db.execSQL(create_students_table);
     }
 
@@ -86,6 +92,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         values.put(KEY_COLOR, note.getmColor().toArgb());
         values.put(KEY_CONTENT, note.getmContent());
         values.put(KEY_DAY_REMINDER,dateReminderString);
+        values.put(KEY_IS_TRASH, 0);
 
         long res = db.insert(TABLE_NAME, null, values);
         db.close();
@@ -98,7 +105,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public Note getNode(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_NAME, null, KEY_ID + " = ?", new String[] { String.valueOf(id) },null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, null, KEY_ID + " = ? AND "+KEY_IS_TRASH+" = 0", new String[] { String.valueOf(id) },null, null, null);
         if(cursor != null)
             cursor.moveToFirst();
         Note note = createNoteFromCursor(cursor);
@@ -107,7 +114,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     @RequiresApi(api = Build.VERSION_CODES.O)
     public boolean getAllNote() {
         ArrayList<Note>  listNote = new ArrayList<>();
-        String query = "SELECT * FROM " + TABLE_NAME;
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE "+ KEY_IS_TRASH + " = 0";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -126,7 +133,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         ListNote.getInstance().setListNote(listNote);
         return true;
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public boolean updateColor(int positionNoteInListNote, Color color) {
@@ -166,14 +172,40 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         return false;
     }
 
-    public boolean deleteNote(int positionNoteInListNote) {
+
+    public boolean deleteNote(int positionNoteInTrashListNote) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ListNote listNote = ListNote.getInstance();
-        int id = listNote.getItem(positionNoteInListNote).getmID();
+        ListNoteInTrash listNote = ListNoteInTrash.getInstance();
+        int id = listNote.getItem(positionNoteInTrashListNote).getmID();
 
         int res = db.delete(TABLE_NAME, KEY_ID + " = ?", new String[] { String.valueOf(id) });
         db.close();
         if(res>0) {
+            listNote.removeNote(positionNoteInTrashListNote);
+            return true;
+        }
+        return false;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public boolean moveToTrash(int positionNoteInListNote){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ListNote listNote = ListNote.getInstance();
+        ListNoteInTrash listNoteInTrash = ListNoteInTrash.getInstance();
+        int id = listNote.getItem(positionNoteInListNote).getmID();
+
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_IS_TRASH,"1");
+        int res = db.update(TABLE_NAME,cv,"id = "+id,null);
+        db.close();
+        if(res>0) {
+            Note note = null;
+            try {
+                note =(Note) listNote.getItem(positionNoteInListNote).clone();
+            } catch (CloneNotSupportedException e) {
+                LOGGER.log(Level.WARNING,"Clone failure");
+            }
+            listNoteInTrash.addNote(note);
             listNote.removeNote(positionNoteInListNote);
             return true;
         }
@@ -199,6 +231,29 @@ public class DatabaseHandler extends SQLiteOpenHelper{
             return true;
         }
         return false;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public boolean getAllNotesInTrash() {
+        ArrayList<Note>  listNote = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE "+ KEY_IS_TRASH + " != 0";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor==null&&cursor.getCount()<=0)
+            return false;
+        cursor.moveToFirst();
+
+        while(cursor.isAfterLast() == false) {
+            Note note = createNoteFromCursor(cursor);
+            listNote.add(note);
+            cursor.moveToNext();
+        }
+        if(listNote.size()<=0)
+            return false;
+
+        ListNoteInTrash.getInstance().setListNote(listNote);
+        return true;
     }
 
     //Support method

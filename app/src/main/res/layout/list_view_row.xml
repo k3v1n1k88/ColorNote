@@ -3,32 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/main_listview_row"
-    android:layout_height="50dp"
+    android:layout_height="100dp"
     android:layout_margin="5dp"
+    android:background="@drawable/note_custom"
     >
 
     <TextView
         android:id="@+id/main_listview_row_content"
         android:layout_width="220dp"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
-        android:gravity="center"
+        android:gravity="left|center_vertical"
         android:text="TextView"
+        android:maxLines="1"
         android:textColor="@color/colorBlack"
-        android:textSize="20sp"
-        android:inputType="textImeMultiLine"/>
+        android:textSize="17sp"
+        android:inputType="text"/>
 
-    <TextView
-        android:layout_width="43dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="96dp"
-        android:gravity="center"
-        android:text=". . ."
-        android:textSize="21sp" />
 
     <LinearLayout
         android:layout_width="89dp"
@@ -40,8 +33,8 @@
         <TextView
             android:id="@+id/main_listview_row_ic_alarm"
             android:layout_gravity="right"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:background="@drawable/ic_alarm" />
         <TextView
             android:id="@+id/main_listview_row_date_create"
@@ -50,6 +43,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_marginEnd="3dp"
+            android:maxLines="1"
+            android:layout_gravity="right|center_vertical"
             android:gravity="center"
             android:text="TextView"
             android:textColor="@color/colorBlack"

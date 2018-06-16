@@ -1,39 +1,43 @@
 package com.example.lap10581_local.colornotes.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.app.Activity;
 import android.widget.Toast;
 
 import com.example.lap10581_local.colornotes.Objects.ListNote;
 import com.example.lap10581_local.colornotes.Objects.Note;
 import com.example.lap10581_local.colornotes.R;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
-public class ListViewAdapterNote extends BaseAdapter{
+public class ListViewAdapterNotesSearch extends BaseAdapter{
     Context mContext;
+    ArrayList<Note> listNotes;
 
-    ListNote listNote = ListNote.getInstance();
-
-    public ListViewAdapterNote(Context context){
+    public ListViewAdapterNotesSearch(Context context){
         mContext = context;
+        listNotes = new ArrayList();
+    }
+    public void setListNotes(ArrayList<Note> listNotes){
+        this.listNotes = listNotes;
     }
     @Override
     public int getCount() {
-        return listNote.getSize();
+        return listNotes.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return listNote.getItem(position);
+        return listNotes.get(position);
     }
 
     @Override
@@ -44,25 +48,29 @@ public class ListViewAdapterNote extends BaseAdapter{
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolderListView viewHolder = null;
+        ListViewAdapterNotesSearch.ViewHolderListViewSearch viewHolder = null;
         View row = convertView;
 
         if(row==null){
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
             row = inflater.inflate(R.layout.list_view_row,null);
-            viewHolder = new ViewHolderListView();
+            viewHolder = new ListViewAdapterNotesSearch.ViewHolderListViewSearch();
             viewHolder.tvContent = (TextView) row.findViewById(R.id.main_listview_row_content);
             viewHolder.tvItemAlarm = (TextView) row.findViewById(R.id.main_listview_row_ic_alarm);
             viewHolder.tvDateCreate = (TextView) row.findViewById(R.id.main_listview_row_date_create);
             row.setTag(viewHolder);
         }
         else{
-            viewHolder = (ViewHolderListView) row.getTag();
+            viewHolder = (ListViewAdapterNotesSearch.ViewHolderListViewSearch) row.getTag();
         }
-        viewHolder.tvContent.setText(listNote.getItem(position).getmContent());
+        viewHolder.tvContent.setText(listNotes.get(position).getmContent());
         //viewHolder.tvItemAlarm
-        viewHolder.tvDateCreate.setText(listNote.getItem(position).getmDateCreate().toString());
-        row.setBackgroundColor(listNote.getItem(position).getmColor().toArgb());
+        LocalDateTime localDateTime = listNotes.get(position).getmDateCreate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        int day = localDateTime.getDayOfMonth();
+        int month = localDateTime.getMonthValue();
+        int year = localDateTime.getYear();
+        viewHolder.tvDateCreate.setText(day+"/"+month+"/"+year);
+        row.setBackgroundColor(listNotes.get(position).getmColor().toArgb());
         row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +80,7 @@ public class ListViewAdapterNote extends BaseAdapter{
         return row;
     }
 
-    public static class ViewHolderListView{
+    private static class ViewHolderListViewSearch{
         TextView tvContent;
         TextView tvItemAlarm;
         TextView tvDateCreate;

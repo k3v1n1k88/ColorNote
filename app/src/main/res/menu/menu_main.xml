@@ -4,10 +4,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
     <item
+        android:id="@+id/main_menu_search"
         android:icon="@drawable/ic_search"
         app:showAsAction="always"
         android:title="Search notes"/>
     <item
+        android:id="@+id/main_menu_change_view_style"
         android:icon="@drawable/ic_list_view"
         android:title="Change view style"
         app:showAsAction="always"/>

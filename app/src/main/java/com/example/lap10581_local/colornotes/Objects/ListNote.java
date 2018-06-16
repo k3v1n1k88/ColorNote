@@ -2,6 +2,8 @@ package com.example.lap10581_local.colornotes.Objects;
 
 import android.graphics.Color;
 
+import com.example.lap10581_local.colornotes.Support.SortByName;
+import com.example.lap10581_local.colornotes.Support.Sorter;
 import com.example.lap10581_local.colornotes.database.DatabaseHandler;
 
 import java.util.ArrayList;
@@ -11,9 +13,12 @@ public class ListNote {
     private static ArrayList<Note> listNotes = null;
     private static ListNote mInstance = null;
 
+    private static Sorter mSorter = null;
+
     private ListNote(){
         if(listNotes==null)
             listNotes = new ArrayList();
+        mSorter = new SortByName();
     }
 
     public static ListNote getInstance(){
@@ -91,5 +96,10 @@ public class ListNote {
             return listNoteResult;
         return null;
     }
-
+    public void setSorter(Sorter sorter){
+        mSorter = sorter;
+    }
+    public static void sort(){
+        mSorter.sort(listNotes);
+    }
 }

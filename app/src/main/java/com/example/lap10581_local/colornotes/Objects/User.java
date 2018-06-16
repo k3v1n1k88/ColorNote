@@ -25,17 +25,14 @@ public class User {
     }
 
     public boolean changePassword(String password){
-        //Ket noi co so du lieu here
         this.setmPassword(password);
         return true;
     }
     public boolean changeEmail(String email){
-        //Ket noi co so du lieu tu xa
         this.mEmail = email;
         return true;
     }
     public boolean changeName(String name){
-        //Ket noi co so du lieu tu xa
         this.mName = name;
         return true;
     }

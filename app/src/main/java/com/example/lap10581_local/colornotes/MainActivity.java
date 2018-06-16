@@ -16,10 +16,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.lap10581_local.colornotes.Adapter.ListViewAdapterNote;
+import com.example.lap10581_local.colornotes.Adapter.GridViewAdapterNotes;
+import com.example.lap10581_local.colornotes.Adapter.ListViewAdapterNotes;
 import com.example.lap10581_local.colornotes.CustomView.DialogChooseSortType;
 import com.example.lap10581_local.colornotes.Objects.Constant;
+import com.example.lap10581_local.colornotes.Objects.ListNote;
 import com.example.lap10581_local.colornotes.Objects.Note;
+import com.example.lap10581_local.colornotes.Support.SortByColor;
+import com.example.lap10581_local.colornotes.Support.SortByDateCreate;
+import com.example.lap10581_local.colornotes.Support.SortByName;
 import com.example.lap10581_local.colornotes.database.DatabaseHandler;
 
 import java.util.Date;
@@ -31,8 +36,10 @@ public class MainActivity extends AppCompatActivity implements DialogChooseSortT
     private ListView lvNotes;
     private GridView gvNotes;
     private TextView tvNotify;
+    private static int style = Constant.LIST_VIEW_STYLE;
 
-    private ListViewAdapterNote listViewAdapterNote;
+    private ListViewAdapterNotes listViewAdapterNote;
+    private GridViewAdapterNotes gridViewAdapterNotes;
 
     Button btnSortBy;
     FloatingActionButton fabAddNote;
@@ -44,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements DialogChooseSortT
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         connectElement();
         setFuction4Element();
 
@@ -53,13 +59,32 @@ public class MainActivity extends AppCompatActivity implements DialogChooseSortT
             logger.log(Level.SEVERE,"Error when load database");
         }
 
-        listViewAdapterNote = new ListViewAdapterNote(this);
+        listViewAdapterNote = new ListViewAdapterNotes(this);
         lvNotes.setAdapter(listViewAdapterNote);
-        if(listViewAdapterNote.getCount()>=0){
-            lvNotes.setVisibility(View.VISIBLE);
-            tvNotify.setVisibility(View.VISIBLE);
-        }
 
+        gridViewAdapterNotes = new GridViewAdapterNotes(this);
+        gvNotes.setAdapter(gridViewAdapterNotes);
+
+        if(listViewAdapterNote.getCount()>=0){
+            tvNotify.setVisibility(View.INVISIBLE);
+
+        }
+        setViewStyle();
+    }
+
+    private void setViewStyle() {
+        switch (style){
+            case Constant.GRDID_VIEW_STYLE:
+                lvNotes.setVisibility(View.GONE);
+                gvNotes.setVisibility(View.VISIBLE);
+                break;
+            case Constant.LIST_VIEW_STYLE:
+                lvNotes.setVisibility(View.VISIBLE);
+                gvNotes.setVisibility(View.GONE);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -70,7 +95,19 @@ public class MainActivity extends AppCompatActivity implements DialogChooseSortT
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        int id  = item.getItemId();
+        switch(id){
+            case R.id.main_menu_change_view_style:
+                style++;
+                style = style%2+100;
+                setViewStyle();
+                break;
+            case R.id.main_menu_search:
+                Intent intent = new Intent(MainActivity.this,SearchNoteActivity.class);
+                startActivity(intent);
+                default:
+                    break;
+        }
         return true;
     }
 
@@ -114,6 +151,8 @@ public class MainActivity extends AppCompatActivity implements DialogChooseSortT
                         Date dateCreate = new Date();
                         Note note = new Note(dateCreate, Color.valueOf(color),content);
                         databaseHandler.addNote(note);
+                        listViewAdapterNote.notifyDataSetChanged();
+                        gridViewAdapterNotes.notifyDataSetChanged();
                     }
                 }
                 break;
@@ -125,6 +164,28 @@ public class MainActivity extends AppCompatActivity implements DialogChooseSortT
 
     @Override
     public void choosen(int selection) {
-        Toast.makeText(this, "Selection "+selection, Toast.LENGTH_SHORT).show();
+        ListNote listView = ListNote.getInstance();
+        switch (selection){
+            case Constant.SORT_BY_NAME:
+                listView.setSorter(new SortByName());
+                Toast.makeText(this, "Sort by name ", Toast.LENGTH_SHORT).show();
+                break;
+            case Constant.SORT_BY_DATE:
+                listView.setSorter(new SortByDateCreate());
+                Toast.makeText(this, "Sort by date create ", Toast.LENGTH_SHORT).show();
+                break;
+            case Constant.SORT_BY_COLOR:
+                Toast.makeText(this, "Sort by color ", Toast.LENGTH_SHORT).show();
+                listView.setSorter(new SortByColor());
+                break;
+            case Constant.SORT_BY_REMIND:
+                Toast.makeText(this, "Sort by reminder day ", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+        listView.sort();
+        listViewAdapterNote.notifyDataSetChanged();
+        gridViewAdapterNotes.notifyDataSetChanged();
     }
 }

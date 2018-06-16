@@ -1,12 +1,18 @@
 package com.example.lap10581_local.colornotes.Objects;
 
 import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
+import com.example.lap10581_local.colornotes.Support.Sorter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Random;
 
-public class Note implements Serializable {
+public class Note implements Serializable,Cloneable{
 
     private int mID;
     private Date mDateCreate;
@@ -17,6 +23,8 @@ public class Note implements Serializable {
 
     //Constructor-------------------------
     //
+    private Note(){}
+
     public Note(Date mDateCreate) {
         this.mDateCreate = mDateCreate;
         this.mColor = new Color();
@@ -86,6 +94,8 @@ public class Note implements Serializable {
     public int getmID(){
         return mID;
     }
+
+
     //Method
     public void changeColor(Color color){
         mColor = color;
@@ -109,5 +119,40 @@ public class Note implements Serializable {
         mDateReminder = dateReminder;
         //truy van co so du lieu
     }
+    //prototype
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Note note = new Note();
+        note.mID = this.mID;
+        LocalDateTime localDateTimeCreate = mDateCreate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+        int year = localDateTimeCreate.getYear();
+        int month = localDateTimeCreate.getMonthValue();
+        int day = localDateTimeCreate.getDayOfMonth();
+        int hour = localDateTimeCreate.getHour();
+        int minute = localDateTimeCreate.getMinute();
+        int second = localDateTimeCreate.getSecond();
+
+        note.mDateCreate = new Date(year,month,day,hour,minute,second);
+        note.mContent = new String(this.mContent);
+        note.mColor = Color.valueOf(this.mColor.toArgb());
+
+        if(!mDateReminder.equals("")&&mDateReminder!=null) {
+            localDateTimeCreate = mDateCreate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+            year = localDateTimeCreate.getYear();
+            month = localDateTimeCreate.getMonthValue();
+            day = localDateTimeCreate.getDayOfMonth();
+            hour = localDateTimeCreate.getHour();
+            minute = localDateTimeCreate.getMinute();
+            second = localDateTimeCreate.getSecond();
+
+            note.mDateReminder = new Date(year,month,day,hour,minute,second);
+        }
+        else
+            note.mDateReminder = null;
+        return note;
+    }
 }
