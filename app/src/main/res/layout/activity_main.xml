@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.lap10581_local.colornotes.MainActivity">
         <LinearLayout
-            android:id="@+id/main_listview"
+            android:id="@+id/main_lila"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -19,12 +19,12 @@
                 android:textSize="10sp"
                 android:drawableEnd="@drawable/ic_drop_down"/>
             <ListView
-                android:id="@+id/main_lv_note"
+                android:id="@+id/main_lv_notes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="invisible"/>
             <GridView
-                android:id="@+id/main_gv_note"
+                android:id="@+id/main_gv_notes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="visible"

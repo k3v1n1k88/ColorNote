@@ -1,19 +1,17 @@
-package com.example.lap10581_local.colornotes;
+package com.example.lap10581_local.colornotes.CustomView;
 
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDialog;
 import android.support.v7.app.AppCompatDialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import com.example.lap10581_local.colornotes.Objects.Constant;
+import com.example.lap10581_local.colornotes.R;
 
 public class DialogChooseSortType extends AppCompatDialogFragment{
     public static int selection = 0;

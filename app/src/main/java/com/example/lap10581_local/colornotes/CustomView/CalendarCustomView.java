@@ -1,4 +1,4 @@
-package com.example.lap10581_local.colornotes.calendar;
+package com.example.lap10581_local.colornotes.CustomView;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -13,7 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lap10581_local.colornotes.Adapter.GridAdapterCalendar;
 import com.example.lap10581_local.colornotes.R;
+import com.example.lap10581_local.colornotes.database.DatabaseHandler;
 //import com.example.lap10581_local.colornotes.calendar.Database;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 public class CalendarCustomView extends LinearLayout{
     private static final String TAG = CalendarCustomView.class.getSimpleName();
+    public static int id = 1;
     private ImageView previousButton, nextButton;
     private TextView currentDate;
     private GridView calendarGridView;
@@ -32,7 +35,7 @@ public class CalendarCustomView extends LinearLayout{
     private SimpleDateFormat formatter = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH);
     private Calendar cal = Calendar.getInstance(Locale.ENGLISH);
     private Context context;
-    private GridAdapter mAdapter;
+    private GridAdapterCalendar mAdapter;
     //private DatabaseQuery mQuery;
     public CalendarCustomView(Context context) {
         super(context);
@@ -74,6 +77,7 @@ public class CalendarCustomView extends LinearLayout{
             public void onClick(View v) {
                 cal.add(Calendar.MONTH, 1);
                 setUpCalendarAdapter();
+                DatabaseHandler databaseHandler = new DatabaseHandler(context);
             }
         });
     }
@@ -81,7 +85,7 @@ public class CalendarCustomView extends LinearLayout{
         calendarGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                DatabaseHandler databaseHandler = new DatabaseHandler(context);
                 Toast.makeText(context, "Clicked " + mAdapter.getItem(position).toString(), Toast.LENGTH_LONG).show();
             }
         });
@@ -101,7 +105,7 @@ public class CalendarCustomView extends LinearLayout{
         Log.d(TAG, "Number of date " + dayValueInCells.size());
         String sDate = formatter.format(cal.getTime());
         currentDate.setText(sDate);
-        mAdapter = new GridAdapter(context, dayValueInCells, cal);
+        mAdapter = new GridAdapterCalendar(context, dayValueInCells, cal);
         calendarGridView.setAdapter(mAdapter);
     }
 }

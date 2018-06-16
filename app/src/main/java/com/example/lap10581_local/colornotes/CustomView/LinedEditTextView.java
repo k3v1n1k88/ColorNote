@@ -1,4 +1,4 @@
-package com.example.lap10581_local.colornotes;
+package com.example.lap10581_local.colornotes.CustomView;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -7,20 +7,20 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
-public class LinedEditText extends android.support.v7.widget.AppCompatEditText {
+public class LinedEditTextView extends android.support.v7.widget.AppCompatEditText {
     private Paint mPaint = new Paint();
 
-    public LinedEditText(Context context) {
+    public LinedEditTextView(Context context) {
         super(context);
         initPaint();
     }
 
-    public LinedEditText(Context context, AttributeSet attrs) {
+    public LinedEditTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initPaint();
     }
 
-    public LinedEditText(Context context, AttributeSet attrs, int defStyle) {
+    public LinedEditTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initPaint();
     }

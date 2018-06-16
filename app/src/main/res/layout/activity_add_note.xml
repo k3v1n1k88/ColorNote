@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
+    android:id="@+id/add_note_rela"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,30 +10,35 @@
     android:background="@color/colorPrimary"
     tools:context="com.example.lap10581_local.colornotes.MainActivity">
 
-    <EditText
-        android:id="@+id/note_edt_title"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:inputType="textPersonName"
-        android:singleLine="true"
-        android:hint="Your title here"
-        android:textSize="22sp"
-        android:paddingLeft="10dp"
-        android:layout_margin="5dp"
-        android:background="@drawable/edt_oval"/>
-
-    <com.example.lap10581_local.colornotes.LinedEditText
+    <com.example.lap10581_local.colornotes.CustomView.LinedEditTextView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/note"
-        android:background="@drawable/edt_oval"
+        android:id="@+id/add_note_content"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_margin="5dp"
+        android:layout_height="453dp"
+        android:background="@drawable/edt_oval"
         android:gravity="top"
-        android:padding="10dp"
-        android:textSize="22sp"
-        android:textColor="#000000"
-        android:inputType="textMultiLine"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
         android:hint="Your content here"
-        />
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:textSize="22sp" />
+
+    <!--<EditText-->
+        <!--android:id="@+id/add_note_tag"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentTop="false"-->
+        <!--android:background="@drawable/edt_oval"-->
+        <!--android:hint="Tag"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:inputType="textPersonName"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:singleLine="true"-->
+        <!--android:textSize="22sp" />-->
+</RelativeLayout>

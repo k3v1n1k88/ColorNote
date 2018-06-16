@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="115dp"
+    android:id="@+id/main_gridview_row"
+    android:layout_height="115dp"
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    >
+    <TextView
+        android:id="@+id/main_gridview_row_content"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_margin="2dp"
+        android:text="There are something here what your content "
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/main_gridview_row_date_create"
+        android:layout_margin="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        android:textSize="12sp"/>
+    <LinearLayout
+        android:layout_margin="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:background="@drawable/ic_alarm"
+            android:layout_width="12dp"
+            android:layout_height="12dp"/>
+        <TextView
+            android:id="@+id/main_gridview_row_date_reminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"/>
+    </LinearLayout>
+</LinearLayout>

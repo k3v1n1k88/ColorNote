@@ -12,4 +12,6 @@
     <color name="colorYellow">#FFFF00</color>
     <color name="colorYellowTender">#ffff8d</color>
     <color name="colorBlackTender">#616161</color>
+    <color name="colorGreen">#00FF00</color>
+    <color name="colorGreenTender">#67fd67</color>
 </resources>

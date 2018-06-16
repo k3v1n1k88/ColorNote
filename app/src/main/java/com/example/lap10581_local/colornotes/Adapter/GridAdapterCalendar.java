@@ -1,4 +1,4 @@
-package com.example.lap10581_local.colornotes.calendar;
+package com.example.lap10581_local.colornotes.Adapter;
 
 import android.content.Context;
 
@@ -16,13 +16,13 @@ import com.example.lap10581_local.colornotes.R;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-public class GridAdapter extends ArrayAdapter {
-    private static final String TAG = GridAdapter.class.getSimpleName();
+public class GridAdapterCalendar extends ArrayAdapter {
+    private static final String TAG = GridAdapterCalendar.class.getSimpleName();
     private LayoutInflater mInflater;
     private List<Date> monthlyDates;
     private Calendar currentDate;
     //private List<EventObjects> allEvents;
-    public GridAdapter(Context context, List<Date> monthlyDates, Calendar currentDate) {
+    public GridAdapterCalendar(Context context, List<Date> monthlyDates, Calendar currentDate) {
         super(context, R.layout.single_cell_layout);
         this.monthlyDates = monthlyDates;
         this.currentDate = currentDate;
